@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Gimme the Dirt</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="show_date_val">Earliest date:</string>
+    <string name="open_datePicker">Choose New Date</string>
+    <string name="ask_subject">What you wanna know about?</string>
+    <string name="ask_hint2">For word groups, use quotes: &quot;Flaming Lips&quot;. Reg expr is not possible.</string>
+    <string name="ask_hint1">Ex. &quot;China Mievelle&quot;</string>
+    <string name="hate">Gimme the dirt</string>
+    <string name="love">Gimme some love</string>
+    <string name="start">Go!</string>
+    <string name="default_message">OK</string>
+    <string name="running">Wait a moment...</string>
+    
+
+</resources>
