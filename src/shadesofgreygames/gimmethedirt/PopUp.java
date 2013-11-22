@@ -13,41 +13,46 @@ import android.widget.TextView;
 
 
 public class PopUp extends DialogFragment {
-	private int iMessage;
-	private String sMessage;
-	private String sYes;
-	private String sNo;
-	private String sMaybe;
+	private String sMessage;	
 	private Bundle args;
+	private boolean bMessage = false;
 
-	public PopUp()
-	{
-		this.iMessage = R.string.default_message;
-	}
+//	public PopUp()
+//	{
+//		
+//	}
 	
 //	public PopUp newPopUp(String sMessage, String sYes, String sNo, String sMaybe, int iMessage) {
 //	static PopUp newPopUp(int iMessage) {
+	
+	public PopUp newPopUp() {
+		PopUp myPopUp = new PopUp();
+		Bundle args = new Bundle();
+		args.putBoolean("generated_message", false);
+		myPopUp.setArguments(args);
+//		this.args = args;
+		return myPopUp;
+	}
+	
 	public PopUp newPopUp(String sMessage) {
-		this.sMessage = sMessage;
-		this.sYes = sYes;
-		this.sNo = sNo;
-		this.sMaybe = sMaybe;
-		this.iMessage = iMessage;
+//		this.sMessage = sMessage;
 		
 		PopUp myPopUp = new PopUp();
 		Bundle args = new Bundle();
 		args.putString("title", sMessage);
+		args.putBoolean("generated_message", true);
 		myPopUp.setArguments(args);
-		this.args = args;
+//		this.args = args;
 		return myPopUp;
 	}
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		iMessage = getArguments().getInt("title");
-		
-		int style = DialogFragment.STYLE_NORMAL, theme= 0;
+//		if (getArguments().getBoolean("show_message") ) {
+//			sMessage = getArguments().getString("title");
+//		}
+		int style = DialogFragment.STYLE_NO_TITLE, theme= android.R.style.Theme_Dialog;
 		setStyle(style, theme);
 	}
 	
@@ -56,7 +61,9 @@ public class PopUp extends DialogFragment {
 			Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.fragment_dialog,  container, false);
 		View tv = v.findViewById(R.id.tvPopUp);
-		((TextView)tv).setText("Dialog " + this.getArguments().getString("title") + ": using style blah");
+		if (getArguments().getBoolean("generated_message") ) {
+			((TextView)tv).setText(this.getArguments().getString("title") );			
+		}
 		
 		//Watch for button clicks
 //		Button button = (Button)v.findViewById(R.id.btnShow);
@@ -87,3 +94,8 @@ public class PopUp extends DialogFragment {
 //	}
 //	.create();
 //}
+
+
+
+//android:textAppearance="@android:style/TextAppearance.DialogWindowTitle" />
+

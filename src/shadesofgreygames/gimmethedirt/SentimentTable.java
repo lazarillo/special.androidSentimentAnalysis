@@ -10,16 +10,22 @@ import android.app.Activity;
 //import android.util.Log;
 //import android.widget.Toast;
 import android.app.Dialog;
+import android.content.ContextWrapper;
+import android.view.View.OnClickListener;
 
 /**
  * @author Mike Williamson
  *
  */
+//public class SentimentTable extends Activity
 public class SentimentTable extends Activity
 {
 	private String sDict;
+	private OnClickListener onClickListener;
 	private Activity activity;
+
 	SentimentTable(Activity activity)
+//	SentimentTable(OnClickListener onClickListener)
 	{
 		this.activity = activity;
 		try

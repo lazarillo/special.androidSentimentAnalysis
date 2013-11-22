@@ -29,8 +29,8 @@ public class MainActivity extends Activity {
 	
 	private String sDict;
 	
-	static final int DATE_DIALOG_ID = 101;
-	static final int START_SEARCH_ID = 102;
+	static final int START_SEARCH_ID = 101;
+	static final int COMPLETE_SEARCH_ID = 102;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -68,8 +68,7 @@ public class MainActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				showPopUp(DATE_DIALOG_ID);
-//				showDialog(DATE_DIALOG_ID);
+				showDatePicker();
 			}
 		} );
 		btnGo.setOnClickListener(new OnClickListener() {
@@ -78,7 +77,9 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 				Toast.makeText(MainActivity.this, "Getting info...", Toast.LENGTH_LONG).show();
 				showPopUp(START_SEARCH_ID);
-//				showDialog(START_SEARCH_ID);
+				sDict = new SentimentTable(MainActivity.this).getDict();
+				MainActivity.this.sDict = sDict;
+				showPopUp(COMPLETE_SEARCH_ID);
 			}
 		} );
 	}
@@ -110,51 +111,28 @@ public class MainActivity extends Activity {
 		
 		//Create and show dialog.
 		switch(id) {
-		case DATE_DIALOG_ID:
-			new DatePickerDialog(this, datePickerListener, year, month, day).show();
-			break;
 		case START_SEARCH_ID:
-//			DialogFragment newFragment1 = new PopUp().newPopUp("let's hit it!!").show(ft, "dialog");
-//			new PopUp().newPopUp("let's hit it!!").show(ft, "dialog");
-//			newFragment1.show(ft, "dialog");
-			sDict = new SentimentTable(this).getDict();
-			new PopUp().newPopUp(sDict).show(ft, "dialog");
-//			new Dialog(this).setTitle(sDict);
-			
-//			new Dialog(this).setTitle(sDict);
+			new PopUp().newPopUp().show(ft, "dialog");
 			break;
+		case COMPLETE_SEARCH_ID:
+			new PopUp().newPopUp(this.sDict).show(ft, "dialog");
+			break;
+			
 		}
 	}
 	
-
-			
-	
-	
-	
-//	private AlertDialog.Builder popUpDialog = new AlertDialog.Builder(this);
-	
-	
-	
-	
-	
-	
-	/*				@Override
-				public void onDateSet(DatePicker view, int year, int monthOfYear,
-						int dayOfMonth) {
-					// TODO Auto-generated method stub
-					
-				}
-			};
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
+	void showDatePicker()
+	{
+		mStackLevel++;
+		FragmentTransaction ft = getFragmentManager().beginTransaction();
+		Fragment prev = getFragmentManager().findFragmentByTag("dialog");
+		if (prev != null) {
+			ft.remove(prev);
+		}
+		ft.addToBackStack(null);
+		new DatePickerDialog(this, datePickerListener, year, month, day).show();
 	}
 	
-	
-*/
 }
 
 
