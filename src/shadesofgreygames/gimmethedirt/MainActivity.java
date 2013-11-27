@@ -43,7 +43,7 @@ public class MainActivity extends Activity {
 	
 	// constructor to make it easier to consistently print the date
 	private String readableDate(int year, int month, int day) {
-		return new StringBuilder().append(year).append("/").append(month + 1).append("/").append(day).toString();
+		return new StringBuilder().append(year).append("-").append(month + 1).append("-").append(day).toString();
 	}
 
 	// display current date
@@ -79,6 +79,9 @@ public class MainActivity extends Activity {
 				showPopUp(START_SEARCH_ID);
 				sDict = new SentimentTable(MainActivity.this).getDict();
 				MainActivity.this.sDict = sDict;
+				String[] myInput = {"Obama"};
+//				new SearchTweets().showTweets(myInput);
+				startTweetSearch(year, month, day);
 				showPopUp(COMPLETE_SEARCH_ID);
 			}
 		} );
@@ -115,7 +118,8 @@ public class MainActivity extends Activity {
 			new PopUp().newPopUp().show(ft, "dialog");
 			break;
 		case COMPLETE_SEARCH_ID:
-			new PopUp().newPopUp(this.sDict).show(ft, "dialog");
+//			new PopUp().newPopUp(this.sDict).show(ft, "dialog");
+			new PopUp().newPopUp("done!").show(ft, "dialog");
 			break;
 			
 		}
@@ -131,6 +135,11 @@ public class MainActivity extends Activity {
 		}
 		ft.addToBackStack(null);
 		new DatePickerDialog(this, datePickerListener, year, month, day).show();
+	}
+	
+	private void startTweetSearch(int year, int month, int day)
+	{
+		new TweetSearch(this).execute(new String[] {"lindsey sterling", readableDate(year, month, day) } );
 	}
 	
 }

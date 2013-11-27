@@ -16,14 +16,6 @@ public class PopUp extends DialogFragment {
 	private String sMessage;	
 	private Bundle args;
 	private boolean bMessage = false;
-
-//	public PopUp()
-//	{
-//		
-//	}
-	
-//	public PopUp newPopUp(String sMessage, String sYes, String sNo, String sMaybe, int iMessage) {
-//	static PopUp newPopUp(int iMessage) {
 	
 	public PopUp newPopUp() {
 		PopUp myPopUp = new PopUp();
@@ -49,9 +41,6 @@ public class PopUp extends DialogFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-//		if (getArguments().getBoolean("show_message") ) {
-//			sMessage = getArguments().getString("title");
-//		}
 		int style = DialogFragment.STYLE_NO_TITLE, theme= android.R.style.Theme_Dialog;
 		setStyle(style, theme);
 	}
@@ -64,37 +53,9 @@ public class PopUp extends DialogFragment {
 		if (getArguments().getBoolean("generated_message") ) {
 			((TextView)tv).setText(this.getArguments().getString("title") );			
 		}
-		
-		//Watch for button clicks
-//		Button button = (Button)v.findViewById(R.id.btnShow);
-//		button.setOnClickListener(new OnClickListener() {
-//			public void onClick(View v) {
-				//when button is clicked, call up to owning activity.
-//				((FragmentDialog)getActivity()).showDialog();
-//			}
-//		} );
-		
 		return v;
 	}
 }
-
-
-//	@Override
-//	public Builder onCreateDialog(Bundle savedInstanceState) {
-//		int iMessage = getArguments().getInt("title");
-//		
-//		return new AlertDialog.Builder(getActivity())
-//		.setTitle(iMessage)
-//		.setNeutralButton(R.string.love,
-//				new DialogInterface.OnClickListener() {
-//			public void onClick(DialogInterface dialog, int whichButton) {
-//				((FragmentAlertDialog)getActivity()).doNeutralClick();
-//			}
-//		}
-//	}
-//	.create();
-//}
-
 
 
 //android:textAppearance="@android:style/TextAppearance.DialogWindowTitle" />
