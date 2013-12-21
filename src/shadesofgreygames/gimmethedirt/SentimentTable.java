@@ -4,6 +4,8 @@
 package shadesofgreygames.gimmethedirt;
 
 import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
 
 import android.app.Activity;
 //import android.content.res.Resources;
@@ -20,7 +22,8 @@ import android.view.View.OnClickListener;
 //public class SentimentTable extends Activity
 public class SentimentTable extends Activity
 {
-	private String sDict;
+	private String sStream;
+	private Map<String, Byte> mDict = new HashMap<String, Byte>();
 	private OnClickListener onClickListener;
 	private Activity activity;
 
@@ -30,7 +33,8 @@ public class SentimentTable extends Activity
 		this.activity = activity;
 		try
 		{
-			this.sDict = loadFile("sentiment_dict", true);
+			this.sStream = loadFile("sentiment_dict", true);
+			this.createDict();
 		}
 		catch (IOException e)
 		{
@@ -38,55 +42,30 @@ public class SentimentTable extends Activity
 		}
 	}
 	
-	public String getDict()
+	public void createDict()
 	{
-		return this.sDict;
+		BufferedReader bufReader = new BufferedReader(new StringReader(sStream) );
+		String line = null;
+		String[] words = null;
+		Byte bScore = 0;
+		try { // If unhandled, creates exception type IOException
+			while ( (line = bufReader.readLine() ) != null)
+			{
+				words = line.split("\\t"); // not sure to use \t or \\t... check this.
+				bScore = (Byte) Byte.parseByte(words[1] );
+				this.mDict.put(words[0], bScore);
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
-//	private Resources rSent;
-//	private String sOutput;
-//	private static void readFile()
-//	{
-////		StringBuffer buffer = new StringBuffer();
-////		BufferedReader reader = new BufferedReader(
-////				new FileReader("")
-//		Resources rSent = Resources.getResources();
-//		InputStream sentSt = rSent.openRawResource(R.raw.sentiment_dict);
-//		
-//		try {
-//			//Load the file from the raw folder - don't forget to OMIT the extension
-//			sOutput = LoadFile("sentiment_dict", true);
-//			Log.i("test", sOutput);
-//			//
-//		}
-//		
-//		
-//		
-//		
-//		StringTokenizer st = new StringTokenizer("this is a test");
-//		while (st.hasMoreTokens() ) {
-//			System.out.println(st.nextToken() );
-//		}
-//	}
-
-//	public void readFile()
-//	{
-//		rSent = getResources();
-//		
-//        try  
-//        {
-//            //Load the file from the raw folder - don't forget to OMIT the extension  
-//            sOutput = loadFile("sentiment_dict", true);  
-//            //output to LogCat  
-//            Log.i("test", sOutput);  
-//        }
-//        catch (IOException e)  
-//        {  
-//            //display an error toast message  
-//            Toast toast = Toast.makeText(this, "File: not found!", Toast.LENGTH_LONG);  
-//            toast.show();  
-//        }  
-//	}
+	public Map<String, Byte> getDict()
+	{
+		return this.mDict;
+	}
+	
 	
 	public String loadFile(String fileName, boolean loadFromRawFolder) throws IOException
 	{
@@ -97,7 +76,6 @@ public class SentimentTable extends Activity
 		{
 			//get the resource id from the file name
 			int iID = this.activity.getResources().getIdentifier("shadesofgreygames.gimmethedirt:raw/" + fileName, null, null);
-//			int iID = rSent.getIdentifier("shadesofgreygames.gimmethedirt:raw/" + fileName, null, null);
 			//get the file as a stream
 			isSent = this.activity.getResources().openRawResource(iID);
 		}
@@ -105,7 +83,6 @@ public class SentimentTable extends Activity
 		{
 			//get the file as a stream
 			isSent = this.activity.getResources().getAssets().open(fileName);
-//			isSent = rSent.getAssets().open(fileName);
 		}
 		//create a buffer with the same size as the InputStream
 		byte[] bData = new byte[isSent.available() ];
